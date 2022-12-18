@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Afficher une liste de ville avec les valeurs suivantes : Paris, New York, Berlin
+        // Ajouter un formulaire avec un input text pour ajouter une nouvelle ville à cette liste
+
+        function CityList(){
+
+            const [cities, setCities] = React.useState([])
+            const [city, setCity] = React.useState('')
+
+            let content = null
+            if(cities.length === 0){
+                content = <li>tableau vide</li>
+            }else{
+                content = cities.map((city, index)=>{
+                    return <li key={index}>{city}</li>
+               })
+            }
+
+            return (
+                <div className="container">
+                    <div className="d-flex justify-content-around">
+                        <ul>
+                            {content}
+                         </ul>
+                         <div>
+                            <form onSubmit={(e)=>{
+                                e.preventDefault()
+                                let newCities = [...cities]
+                                
+                                if(city.length > 0){
+                                    newCities.push(city)
+                                    setCities(newCities)
+                                    setCity('')
+                                }else{
+                                    alert('Veuillez saisir une ville')
+                                }
+                            }}>
+                                <div className="form-group">
+                                    <label>Ville</label>
+                                    <input type="text" required value={city}
+                                    onChange={(e)=>{
+                                        setCity(e.target.value)
+                                    }}
+                                    className="form-control" />
+                                </div>
+                                <div className="form-group">
+                                    <input type="submit" className="btn btn-primary" value="Ajouter" />
+                                </div>
+                            </form>
+                         </div>
+                    </div>
+                </div>
+                
+            )
+        }
+
+        ReactDOM.render(<CityList />, document.querySelector('#root'))
+    </script>
+</body>
+</html>

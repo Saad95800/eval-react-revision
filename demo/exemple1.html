@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Afficher un carré bleu, lorsque je ne survole devient noir
+
+        // Créer un composant
+        function Square(){
+
+            const [color, setColor] = React.useState('bg-black')
+            const [width, setWidth] = React.useState('100px')
+            const [height, setHeight] = React.useState('100px')
+
+            const resetSquare = () => {
+                setColor('bg-black')
+                setWidth('100px')
+                setHeight('100px')
+            }
+
+            const changeSquare = () => {
+                setColor('bg-danger')
+                setWidth('300px')
+                setHeight('500px')
+            }
+            
+            return (
+                <div 
+                    className={color} 
+                    style={{width: width, height: height, border: '1px solid blue'}}
+                    onMouseEnter={()=>{changeSquare()}}
+                    onMouseOut={()=>{
+                        resetSquare()
+                    }}
+                ></div>
+            )
+
+        }
+
+        ReactDOM.render(<Square />, document.querySelector('#root'))
+    </script>
+    
+</body>
+</html>

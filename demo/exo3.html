@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        
+        function Squares(){
+
+            let elements = []
+
+            for(let i = 1; i <= 16; i++){
+                elements.push({color: 'bg-black', id: i})
+            }
+
+            const [squares, setSquares] = React.useState(elements)
+            const [complete, setComplete] = React.useState(false)
+
+            return (
+                <div className="d-flex flex-wrap border" style={{width: '500px', height: '500px'}}>
+                    {squares.map((square, index)=>{
+                        return <div key={index} className={`w-25 border ${square.color}`} 
+                        onMouseOver={()=>{ // Lorsqu'on survole un élément
+                        if(!complete){
+                            let newSquares = []
+                            let BlackSquare = false
+                            for(let s of squares){
+                                if(s.id === square.id){ // Lorsqu'on parcours le carré qu'on a survolé
+                                    newSquares.push({color: 'bg-primary', id: s.id})
+                                }else{ // Les autres carrés de l'itération, qu'on a pas survolé
+                                    newSquares.push({color: s.color, id: s.id})
+                                    if(s.color === 'bg-black'){
+                                        BlackSquare = true
+                                    }
+                                }
+                            }
+                            setSquares(newSquares)
+
+                            if(!BlackSquare){
+                                setComplete(true)
+                                alert('Complete')
+                            }                            
+                        }
+
+                        }}></div>
+                    })}
+                    
+                </div>
+            )
+        }
+
+        ReactDOM.render(<Squares/>, document.querySelector('#root'))
+    </script>
+</body>
+</html>

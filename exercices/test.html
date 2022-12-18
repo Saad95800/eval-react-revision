@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script
+            crossorigin
+            src="https://unpkg.com/react@16/umd/react.development.js"
+        ></script>
+        <script
+            crossorigin
+            src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+        ></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+            crossorigin="anonymous"
+        />
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script type="text/babel">
+            function SecondForm({removeColonne, colonnes}) {
+                const [inputValue, setInputValue] = React.useState("Colonne");
+                return (
+                    <div className="d-flex flex-column mt-5 border border-dark p-5">
+                        <form
+                            action=""
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                removeColonne(inputValue);
+                            }}
+                        >
+                            <select
+                                name=""
+                                id=""
+                                value={inputValue}
+                                onChange={(e) => {
+                                    setInputValue(e.target.value);
+                                    console.log(inputValue);
+                                }}
+                            >
+                                {colonnes.map((colonne) => {
+                                    return (
+                                        <option value={colonne.title}>
+                                            {colonne.title}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                            <button type="submit">Remove</button>
+                        </form>
+                    </div>
+                );
+            }
+            function Form({addColonne}) {
+                const [inputValue, setInputValue] = React.useState("");
+                return (
+                    <div className="d-flex flex-column mt-5 border border-dark p-5">
+                        <form
+                            action=""
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                addColonne(inputValue);
+                            }}
+                        >
+                            <input
+                                type="text"
+                                name=""
+                                id=""
+                                value={inputValue}
+                                onChange={(e) => {
+                                    setInputValue(e.target.value);
+                                }}
+                            />
+                            <button type="submit">Ajouter</button>
+                        </form>
+                    </div>
+                );
+            }
+            function ChildContainer({colonne}) {
+                return (
+                    <div className="d-flex flex-column mt-5 border border-dark p-5">
+                        <h4>{colonne.title}</h4>
+                        <p>randomm text</p>
+                    </div>
+                );
+            }
+            function ParentContainer() {
+                const [colonnes, setColonnes] = React.useState([
+                    {
+                        title: "titre1",
+                    },
+                    {
+                        title: "titre2",
+                    },
+                    {
+                        title: "titre3",
+                    },
+                    {
+                        title: "titre4",
+                    },
+                ]);
+
+                function addColonne(data) {
+                    console.log(data);
+                    let newColonne = {
+                        title: data,
+                    };
+                    setColonnes([...colonnes, newColonne]);
+                }
+                function removeColonne(data) {
+                    let newColonnes = colonnes.filter(
+                        (colone) => colone.title !== data
+                    );
+                    setColonnes(newColonnes);
+                }
+
+                console.log(colonnes);
+                return (
+                    <div className="container">
+                        <div className=" d-flex justify-content-around">
+                            <SecondForm
+                                removeColonne={removeColonne}
+                                colonnes={colonnes}
+                            />
+                        </div>
+                        <div className=" d-flex justify-content-around">
+                            <Form addColonne={addColonne} />
+                        </div>
+                        <div className=" d-flex justify-content-around">
+                            {colonnes.map((colonne, index) => {
+                                return (
+                                    <ChildContainer
+                                        key={index}
+                                        colonne={colonne}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </div>
+                );
+            }
+
+            ReactDOM.render(
+                <ParentContainer />,
+                document.querySelector("#root")
+            );
+        </script>
+    </body>
+</html>

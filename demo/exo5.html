@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        function Personne({data, setMsg, selected, setSelected}){
+
+            return (
+                <div style={{border: '1px solid black', width: '20%', backgroundColor: selected ? 'lightblue' : 'transparent'}} 
+                onClick={()=>{
+                    setSelected(data)
+                    setMsg(data)
+                }}>
+                    <p>{data.prenom} {data.nom}</p>
+                    <p>{data.genre}</p>
+                    <p>{data.age} ans</p>
+                </div>
+            )
+        }
+
+        function Container(){
+
+            const [peoples, setPeoples] = React.useState([
+                {
+                    id: 1,
+                    nom: 'DUPONT',
+                    prenom: 'Thomas',
+                    genre: 'Homme',
+                    age: 25,
+                    selected: false
+                },
+                {
+                    id: 2,
+                    nom: 'DOE',
+                    prenom: 'John',
+                    genre: 'Homme',
+                    age: 40,
+                    selected: false
+                },
+                {
+                    id: 3,
+                    nom: 'DOE 1',
+                    prenom: 'John 1',
+                    genre: 'Homme',
+                    age: 40,
+                    selected: false
+                },
+                {
+                    id: 4,
+                    nom: 'DOE 2',
+                    prenom: 'John 2',
+                    genre: 'Homme',
+                    age: 40,
+                    selected: false
+                },
+                {
+                    id: 5,
+                    nom: 'DOE 3',
+                    prenom: 'John 3',
+                    genre: 'Homme',
+                    age: 40,
+                    selected: false
+                },
+                {
+                    id: 6,
+                    nom: 'DOE 4',
+                    prenom: 'John 4',
+                    genre: 'Homme',
+                    age: 40,
+                    selected: false
+                },
+                {
+                    id: 7,
+                    nom: 'DOE 5',
+                    prenom: 'John 5',
+                    genre: 'Homme',
+                    age: 40,
+                    selected: false
+                },
+                {
+                    id: 8,
+                    nom: 'DOE 6',
+                    prenom: 'John 6',
+                    genre: 'Homme',
+                    age: 40,
+                    selected: false
+                },
+                {
+                    id: 9,
+                    nom: 'DOE 7',
+                    prenom: 'John 7',
+                    genre: 'Homme',
+                    age: 40,
+                    selected: false
+                },
+                {
+                    id: 10,
+                    nom: 'MARSHAL',
+                    prenom: 'Lucie',
+                    genre: 'Femme',
+                    age: 30,
+                    selected: false
+                }
+            ])
+
+            const [message, setMessage] = React.useState('')
+
+            const setMsg = (data) => {
+                setMessage(`${data.nom} ${data.prenom} ${data.genre} ${data.age}`)
+            }
+
+            const setSelected = (data)=>{
+                // Selectionner un enfant, et déselectionner les autres
+                let newPeoples = []
+
+                for(let p of peoples){
+                    let selected = false
+                    let people = p
+                    if(p.id === data.id){
+                        selected = true
+                        people = data
+                    }
+                    newPeoples.push({
+                        id: people.id,
+                        nom: people.nom,
+                        prenom: people.prenom,
+                        genre: people.genre,
+                        age: people.age,
+                        selected: selected 
+                    })
+                }
+                setPeoples(newPeoples)
+            }
+            
+
+            return (
+                <div className="container">
+                    <div className="conteneur border" style={{height: '500px', width: '80%'}}>
+                        <div className="message">{message}</div>
+                        <div className="d-flex flex-wrap">
+                            {peoples.map((people, index)=>{
+                                return <Personne key={index} data={people} setSelected={setSelected} setMsg={setMsg} selected={people.selected}/>
+                            })}
+                        </div>
+                        
+                    </div>
+                </div>
+            )
+        }
+
+
+
+        ReactDOM.render(<Container />, document.querySelector('#root'));
+
+    </script>
+
+</body>
+
+</html>

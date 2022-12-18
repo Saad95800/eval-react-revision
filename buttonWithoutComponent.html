@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+    
+    <div id="root">
+        <div class="d-flex">
+            <div id="container-btn" class="d-flex flex-column">
+                <button id="btn" class="btn btn-primary m-3">Button 0</button>
+            </div>
+            
+            <button id="add-btn" class="btn btn-success m-3" style="height: 50px">Add btn</button>        
+        </div>        
+    </div>
+
+    <script>
+        let nb = 0
+        document.querySelector('#btn').addEventListener('click', () => {
+            alert('hello world')
+        })
+
+        document.querySelector('#add-btn').addEventListener('click', () => {
+            nb++
+            let newBtn = document.createElement('button')
+            newBtn.innerText = 'Button '+nb
+            newBtn.classList = 'btn btn-primary m-3'
+            newBtn.addEventListener('click', () => {
+                alert('hello world')
+            })
+            document.querySelector('#container-btn').appendChild(newBtn)
+        })
+
+    </script>
+</body>
+</html>

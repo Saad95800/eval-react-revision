@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        function Form({addTable}){
+
+            const [title, setTile] = React.useState('')
+
+            return(
+                <form onSubmit={(e)=>{
+                    e.preventDefault()
+                    if(title.length > 0){
+                        addTable(title)
+                    }else{
+                        alert('Veuillez saisir un titre de tableau')
+                    }
+                }}>
+                    <div className="form-group">
+                        <label>Ajouter un tableau</label>
+                        <input type="text" value={title} onChange={(e)=>{
+                            setTile(e.target.value) 
+                        }} />
+                    <div className="form-group">
+                        <input type="submit" className="btn btn-primary" />
+                    </div>
+                </div>
+                </form>
+            )
+        }
+
+        function Array({data}){
+
+            return (
+                <div style={{margin: '15px', backgroundColor: 'lightgrey', width: '200px', minHeight: '100px', border: '1px solid grey'}}>
+                    <p>{data.title}</p>
+                </div>
+            )
+        }
+
+        function Container(){
+
+            
+
+            const [arrays, setArrays] = React.useState([
+                {
+                    id: 1,
+                    title: 'Projet ressource'
+                },
+                {
+                    id: 2,
+                    title: 'Sujet de la prochaine réunion'
+                },
+                {
+                    id: 3,
+                    title: 'A faire'
+                },
+                {
+                    id: 4,
+                    title: 'En cours'
+                }
+            ])
+
+            const addTable = (title) => {
+                let newArrays = [...arrays]
+                newArrays.push({
+                    id: arrays.length + 1,
+                    title: title
+                })
+                setArrays(newArrays)
+            }   
+
+            return (
+                <div className="container">
+                    <Form addTable={addTable} />
+                    <div className="d-flex">
+                        {arrays.map((array, index)=>{
+                            return <Array key={index} data={array} />
+                        })}
+                    </div>
+                </div>
+            )
+
+        }
+
+
+        ReactDOM.render(<Container />, document.querySelector('#root'));
+
+    </script>
+
+</body>
+
+</html>
